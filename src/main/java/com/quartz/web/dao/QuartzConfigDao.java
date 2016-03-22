@@ -32,7 +32,7 @@ public interface QuartzConfigDao {
      *
      * @param config
      */
-    @Insert("insert into QUARTZ_CONFIG(ckey,cvalue,cflag)values(#{ckey},#{cvalue},#{cflag})")
+    @Insert("insert into quartz_config(ckey,cvalue,cflag)values(#{ckey},#{cvalue},#{cflag})")
     public void insertQuartzConfig(QuartzConfig config);
 
     /**
@@ -40,7 +40,7 @@ public interface QuartzConfigDao {
      *
      * @param id
      */
-    @Delete("delete from QUARTZ_CONFIG where id=#{id}")
+    @Delete("delete from quartz_config where id=#{id}")
     public void deleteConfig(@Param("id") long id);
 
     /**
@@ -48,7 +48,7 @@ public interface QuartzConfigDao {
      *
      * @return
      */
-    @Select("select * from QUARTZ_CONFIG")
+    @Select("select * from quartz_config")
     public List<QuartzConfig> findQuartzConfig();
 
 
@@ -58,7 +58,7 @@ public interface QuartzConfigDao {
      * @param cflag
      * @return
      */
-    @Select("select * from QUARTZ_CONFIG where cflag=#{cflag}")
+    @Select("select * from quartz_config where cflag=#{cflag}")
     public List<QuartzConfig> findQuartzConfigByCFlag(@Param("cflag") int cflag);
 
 
@@ -70,6 +70,6 @@ public interface QuartzConfigDao {
      * @param cflag
      * @return
      */
-    @Select("select * from QUARTZ_CONFIG where cflag=#{cflag} and ckey=#{ckey} and cvalue=#{cvalue} limit 1")
+    @Select("select * from quartz_config where cflag=#{cflag} and ckey=#{ckey} and cvalue=#{cvalue} limit 1")
     public QuartzConfig findQuartzByProperty(@Param("ckey") String ckey, @Param("cvalue") String cvalue, @Param("cflag") int cflag);
 }

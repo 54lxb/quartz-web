@@ -9,8 +9,12 @@ import com.quartz.web.service.QuartzService;
 import com.quartz.web.template.QuartzTemplate;
 import com.quartz.web.util.JsonParser;
 import com.quartz.web.util.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,17 +28,20 @@ import java.util.List;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Controller
 @RequestMapping(value = "/api")
 public class ApiController {
+
+    private Logger logger = LoggerFactory.getLogger(ApiController.class);
 
     @Autowired
     private QuartzService quartzService;
@@ -46,6 +53,7 @@ public class ApiController {
      * @param response
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "httpapi.action")
     public String httpTemplateForApi(HttpServletRequest request, HttpServletResponse response) {
         ResponseMessage<String> res = new ResponseMessage<String>(200, "success");
@@ -57,7 +65,13 @@ public class ApiController {
         String classgroup = "com.quartz.web.template.QuartzHttpTemplate";
         String cron = RequestUtil.getString(request, "cron", null);
         try {
-            if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(cron)) {
+            logger.info("httpurl:" + httpurl);
+            logger.info("httpparam:" + httpparam);
+            logger.info("name:" + name);
+            logger.info("jobgroup:" + jobgroup);
+            logger.info("tiggergroup:" + tiggergroup);
+            logger.info("cron:" + cron);
+            if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(cron) && !Strings.isNullOrEmpty(jobgroup) && !Strings.isNullOrEmpty(tiggergroup)) {
                 QuartzWebJob quartzWebJob = new QuartzWebJob();
                 quartzWebJob.setJobName(name);
                 quartzWebJob.setJobGroupName(jobgroup);
@@ -86,6 +100,7 @@ public class ApiController {
 
                     quartzWebJob.setQuartzParamList(quartzParams);
                 }
+                logger.info("save job");
                 this.quartzService.saveQuartzWebJob(quartzWebJob);
             }
         } catch (Exception e) {

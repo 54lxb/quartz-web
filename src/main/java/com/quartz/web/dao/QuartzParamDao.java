@@ -31,7 +31,7 @@ public interface QuartzParamDao {
      *
      * @param quartzParam
      */
-    @Insert("insert into QUARTZ_PARAM(jobname,paraname,paravalue)values(#{jobname},#{paraname},#{paravalue})")
+    @Insert("insert into quartz_param(jobname,paraname,paravalue)values(#{jobname},#{paraname},#{paravalue})")
     public void insertQuartzParam(QuartzParam quartzParam);
 
     /**
@@ -40,7 +40,7 @@ public interface QuartzParamDao {
      * @param jobname
      * @return
      */
-    @Select("select * from QUARTZ_PARAM where jobname=#{jobname}")
+    @Select("select * from quartz_param where jobname=#{jobname}")
     public List<QuartzParam> findQuartzParam(@Param("jobname") String jobname);
 
     /**
@@ -48,6 +48,6 @@ public interface QuartzParamDao {
      *
      * @param jobname
      */
-    @Select("delete from  QUARTZ_PARAM where jobname=#{jobname}")
+    @Select("delete from  quartz_param where jobname=#{jobname}")
     public void deleteQuartzByJobName(@Param("jobname") String jobname);
 }
