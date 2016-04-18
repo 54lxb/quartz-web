@@ -4,7 +4,7 @@ target
 *.iml
 *.ipr
 *.iws
-build.*
+
 */*/*/quartz.properties
 logs
 target
